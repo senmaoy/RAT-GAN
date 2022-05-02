@@ -2,7 +2,7 @@
 
 Official Pytorch implementation for our paper [Recurrent-Affine-Transformation-for-Text-to-image-Synthesis](https://arxiv.org/abs/2204.10482) 
 
-<img src="framework.png" width="900px" height="448px"/>
+<img src="framework.pdf" width="900px" height="448px"/>
 
 ---
 ### Requirements
@@ -65,7 +65,7 @@ If you find RAT-GAN useful in your research, please consider citing our paper:
   year={2022}
 }
 ```
-The code is released for academic research use only. For commercial use, please contact senmao ye(senmaoy@gmail.com).
+The code is released for academic research use only.
 
 **Reference**
 - [DF-GAN:  DF-GAN: A Simple and Effective Baseline for Text-to-Image Synthesis](https://arxiv.org/abs/2008.05865) [[code]](https://github.com/tobran/DF-GAN.git)
