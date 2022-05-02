@@ -33,3 +33,13 @@ For coco dataset: python main.py --cfg cfg/coco.yml
 
 Pre-trained models
 release soon in two or three days.
+
+If you find RAT-GAN useful in your research, please consider citing our paper:
+
+
+@article{ye2022recurrent,
+  title={Recurrent Affine Transformation for Text-to-image Synthesis},
+  author={Ye, Senmao and Liu, Fei and Tan, Minkui},
+  journal={arXiv preprint arXiv:2204.10482},
+  year={2022}
+}
