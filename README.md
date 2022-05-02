@@ -48,6 +48,7 @@ cd Recurrent-Affine-Transformation-for-Text-to-image-Synthesis/code/
 **Dwonload Pretrained Model**
 - [DF-GAN for bird](https://drive.google.com/file/d/1Np4odfdNkgRursGeKmwVix3zLhiZfZUa/view?usp=sharing). Download and save it to `models/bird/`
 - [DF-GAN for coco](https://drive.google.com/file/d/1wQOpopmaCFz9XjSnvjb5ZOVq2F-elFhy/view?usp=sharing). Download and save it to `models/coco/`
+- [DF-GAN for flower](https://drive.google.com/file/d/19THxubZDsa6_KfOTBpZ45S2aeVXCBj0T/view?usp=sharing). Download and save it to `models/flower/`
 
 **Evaluate RAT-GAN models:**
 
