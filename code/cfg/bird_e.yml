@@ -1,0 +1,28 @@
+CONFIG_NAME: 'bird_lstm_4aff'
+
+DATASET_NAME: 'birds'
+DATA_DIR: '/home/yesenmao/disk/dataset/birds/'
+GPU_ID: 0
+WORKERS: 0
+
+
+B_VALIDATION: True # True  # False
+loss: 'hinge'
+
+TREE:
+    BRANCH_NUM: 1
+    BASE_SIZE: 256
+
+
+TRAIN:
+    NF: 64 # default 64
+    BATCH_SIZE: 24
+    MAX_EPOCH: 601
+    NET_G: '../test'
+
+
+TEXT:
+    EMBEDDING_DIM: 256
+    CAPTIONS_PER_IMAGE: 10
+    #DAMSM_NAME: '../DAMSMencoders/bird/inception/text_encoder200.pth'
+    DAMSM_NAME: '../bird/text_encoder200.pth'
