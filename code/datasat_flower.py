@@ -78,6 +78,7 @@ def get_imgs(img_path, imsize, bbox=None,
         ret = [normalize(img)]
     else:
         for i in range(cfg.TREE.BRANCH_NUM):
+            # print(imsize[i])
             if i < (cfg.TREE.BRANCH_NUM - 1):
                 re_img = transforms.Scale(imsize[i])(img)
             else:
@@ -116,7 +117,6 @@ class TextDataset(data.Dataset):
         self.class_id = self.load_class_id(split_dir, len(self.filenames['img']))
         self.number_example = len(self.filenames['img'])
 
-   
 
 
     def load_bbox(self):
@@ -143,7 +143,45 @@ class TextDataset(data.Dataset):
         #
         return filename_bbox
 
-   
+    def load_captions(self, data_dir, filenames):
+        all_captions = []
+        for i in range(len(filenames['img'])):
+            cap_path = '%s/%s.txt' % ('/home/yesenmao/dataset/flower/jpg_text/', filenames['img'][i])
+            #cap_path =  +filenames['img'][i]
+            with open(cap_path, "r") as f:
+                captions = f.read().split('\n')
+                cnt = 0
+                for cap in captions:
+                    if len(cap) == 0:
+                        continue
+                    cap = cap.replace("\ufffd\ufffd", " ")
+                    # picks out sequences of alphanumeric characters as tokens
+                    # and drops everything else
+                    tokenizer = RegexpTokenizer(r'\w+')
+                    tokens = tokenizer.tokenize(cap.lower())
+                    # print('tokens', tokens)
+                    if len(tokens) == 0:
+                        cap = 'this flower'
+                        cap = cap.replace("\ufffd\ufffd", " ")
+                        tokenizer = RegexpTokenizer(r'\w+')
+                        tokens = tokenizer.tokenize(cap.lower())
+
+                        print('cap', cap)
+                        #continue
+
+                    tokens_new = []
+                    for t in tokens:
+                        t = t.encode('ascii', 'ignore').decode('ascii')
+                        if len(t) > 0:
+                            tokens_new.append(t)
+                    all_captions.append(tokens_new)
+                    cnt += 1
+                    if cnt == self.embeddings_num:
+                        break
+                if cnt < self.embeddings_num:
+                    print('ERROR: the captions for %s less than %d'
+                          % (filenames['img'][i], cnt))
+        return all_captions
 
     def build_dictionary(self, train_captions, test_captions):
         word_counts = defaultdict(float)
@@ -187,13 +225,27 @@ class TextDataset(data.Dataset):
 
     def load_text_data(self, data_dir, split):
         filepath = os.path.join(data_dir, 'captions.pickle')
-        with open(filepath, 'rb') as f:
-            x = pickle.load(f)
-            train_captions, test_captions = x[0], x[1]
-            ixtoword, wordtoix = x[2], x[3]
-            del x
-            n_words = len(ixtoword)
-            print('Load from: ', filepath)
+        #train_names = self.load_filenames(data_dir, 'train')
+        train_names = self.load_filenames(data_dir, 'train')
+        test_names = self.load_filenames(data_dir, 'test')
+        if not os.path.isfile(filepath):
+            train_captions = self.load_captions(data_dir, train_names)
+            test_captions = self.load_captions(data_dir, test_names)
+
+            train_captions, test_captions, ixtoword, wordtoix, n_words = \
+                self.build_dictionary(train_captions, test_captions)
+            with open(filepath, 'wb') as f:
+                pickle.dump([train_captions, test_captions,
+                             ixtoword, wordtoix], f, protocol=2)
+                print('Save to: ', filepath)
+        else:
+            with open(filepath, 'rb') as f:
+                x = pickle.load(f)
+                train_captions, test_captions = x[0], x[1]
+                ixtoword, wordtoix = x[2], x[3]
+                del x
+                n_words = len(ixtoword)
+                print('Load from: ', filepath)
         if split == 'train':
             # a list of list: each list contains
             # the indices of words in a sentence
@@ -204,7 +256,27 @@ class TextDataset(data.Dataset):
             filenames = test_names
         return filenames, captions, ixtoword, wordtoix, n_words
 
+    def load_class_id(self, data_dir, total_num):
+        with open('../data/cat_to_name.json', 'r') as f:
+            cat_to_name = json.load(f)   
+        dic_class=[]
+        dic_classs={}
+        for key,value in cat_to_name.items():
+            dic_class.append(value)
+        for i in range(len(dic_class)):
+            dic_classs[dic_class[i]] = i
 
+        return dic_classs
+
+    def load_filenames(self, data_dir, split):
+        filepath = '../data/flower_cat_dic.pkl'
+        if os.path.isfile(filepath):
+            with open(filepath, 'rb') as f:
+                filenames = pickle.load(f)
+            print('Load filenames from: %s (%d)' % (filepath, len(filenames['img'])))
+        else:
+            filenames = []
+        return filenames
 
     def get_caption(self, sent_ix):
         # a list of indices for a sentence
@@ -227,10 +299,14 @@ class TextDataset(data.Dataset):
         return x, x_len
 
     def __getitem__(self, index):
+        #
         key = self.filenames['img'][index]
-        
+        cat = self.filenames['cat'][index]
+        cls_id = self.class_id[cat]
+        #
         bbox = None
-        data_dir = self.data_dir
+
+
         img_name = '%s/jpg/%s.jpg' % (self.data_dir, key)
         imgs = get_imgs(img_name, self.imsize,
                         bbox, self.transform, normalize=self.norm)            
