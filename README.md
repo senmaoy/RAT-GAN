@@ -11,11 +11,12 @@ Results
 ---
 ### Requirements
 - python 3.8
-- Pytorch 1.11.0+cu113'
+- Pytorch 1.11.0+cu113
 - easydict
 - nltk
 - scikit-image
 - A 2080 TI (set nf=32 in *.yaml) or a 3090 32GB (set nf=64 in *.yaml)
+
 Note that nf=32  produces a IS around 5.0 on CUB. To reproduce the final results please use a GPU more than 32GB.
 ### Installation
 
@@ -44,6 +45,7 @@ Note that flower dataset is a bit different from cub and coco with a standalone 
 **Train RAT-GAN models:**
   - For bird dataset: `python main.py --cfg cfg/bird.yml`
   - For coco dataset: `python main.py --cfg cfg/coco.yml`
+  - For flower dataset: `python main.py --cfg cfg/flower.yml`
 
 - `*.yml` files are example configuration files for training/evaluation our models.
 
