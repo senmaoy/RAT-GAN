@@ -102,7 +102,6 @@ class TextDataset(data.Dataset):
         for i in range(cfg.TREE.BRANCH_NUM):
             self.imsize.append(base_size)
             base_size = base_size * 2
-        self.load_extra()
         self.data = []
         self.data_dir = data_dir
 
@@ -206,15 +205,6 @@ class TextDataset(data.Dataset):
         return filenames, captions, ixtoword, wordtoix, n_words
 
 
-    def load_filenames(self, data_dir, split):
-        filepath = '/home/yesenmao/disk/dataset/flower/flower/flower_cat_dic.pkl'
-        if os.path.isfile(filepath):
-            with open(filepath, 'rb') as f:
-                filenames = pickle.load(f)
-            print('Load filenames from: %s (%d)' % (filepath, len(filenames['img'])))
-        else:
-            filenames = []
-        return filenames
 
     def get_caption(self, sent_ix):
         # a list of indices for a sentence
