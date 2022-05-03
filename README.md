@@ -17,7 +17,7 @@ Results
 - scikit-image
 - A 2080 TI (set nf=32 in *.yaml) or a 3090 32GB (set nf=64 in *.yaml)
 
-Note that nf=32  produces a IS around 5.0 on CUB. To reproduce the final results please use a GPU more than 32GB.
+Note that nf=32  produces a IS around 5.0 on CUB. To reproduce the final results， please use a GPU more than 32GB.
 ### Installation
 
 Clone this repo.
@@ -52,14 +52,14 @@ Note that flower dataset is a bit different from cub and coco with a standalone 
 ### Evaluating
 
 **Dwonload Pretrained Model**
-- [DF-GAN for bird](https://drive.google.com/file/d/1Np4odfdNkgRursGeKmwVix3zLhiZfZUa/view?usp=sharing). Download and save it to `models/bird/`
-- [DF-GAN for coco](https://drive.google.com/file/d/1wQOpopmaCFz9XjSnvjb5ZOVq2F-elFhy/view?usp=sharing). Download and save it to `models/coco/`
-- [DF-GAN for flower](https://drive.google.com/file/d/19THxubZDsa6_KfOTBpZ45S2aeVXCBj0T/view?usp=sharing). Download and save it to `models/flower/`
+- [RAT-GAN for bird](https://drive.google.com/file/d/1Np4odfdNkgRursGeKmwVix3zLhiZfZUa/view?usp=sharing). Download and save it to `models/bird/`
+- [RAT-GAN for coco](https://drive.google.com/file/d/1wQOpopmaCFz9XjSnvjb5ZOVq2F-elFhy/view?usp=sharing). Download and save it to `models/coco/`
+- [RAT-GAN for flower](https://drive.google.com/file/d/19THxubZDsa6_KfOTBpZ45S2aeVXCBj0T/view?usp=sharing). Download and save it to `models/flower/`
 
 **Evaluate RAT-GAN models:**
 
-- To evaluate our DF-GAN on CUB, change B_VALIDATION to True in the bird.yml. and then run `python main.py --cfg cfg/bird.yml`
-- To evaluate our DF-GAN on coco, change B_VALIDATION to True in the coco.yml. and then run `python main.py --cfg cfg/coco.yml`
+- To evaluate our RAT-GAN on CUB, change B_VALIDATION to True in the bird.yml. and then run `python main.py --cfg cfg/bird.yml`
+- To evaluate our RAT-GAN on coco, change B_VALIDATION to True in the coco.yml. and then run `python main.py --cfg cfg/coco.yml`
 - We compute inception score for models trained on birds using [StackGAN-inception-model](https://github.com/hanzhanggit/StackGAN-inception-model).
 - We compute FID for CUB and coco using (https://github.com/senmaoy/Inception-Score-FID-on-CUB-and-OXford.git). 
 
