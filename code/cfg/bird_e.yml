@@ -24,5 +24,4 @@ TRAIN:
 TEXT:
     EMBEDDING_DIM: 256
     CAPTIONS_PER_IMAGE: 10
-    #DAMSM_NAME: '../DAMSMencoders/bird/inception/text_encoder200.pth'
     DAMSM_NAME: '../bird/text_encoder200.pth'

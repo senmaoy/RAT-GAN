@@ -5,7 +5,9 @@ from miscc.config import cfg, cfg_from_file
 
 from datasets import TextDataset
 from datasets import prepare_data
-
+#for flower dataset, please use the fllowing dataset files
+#from datasets_flower import TextDataset
+#from datasets_flower import prepare_data
 from DAMSM import RNN_ENCODER,CustomLSTM
 
 import os
