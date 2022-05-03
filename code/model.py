@@ -88,20 +88,14 @@ class G_Block(nn.Module):
         return x
 
     def residual(self, x, yy=None):
-        # the input of LSTM can be noise, average feature, text embedding
-        #average_fea = F.(x)
-        #average_fea = F.adaptive_avg_pool2d(x,(1,1)).squeeze()
-        #average_fea = self.fea_l(average_fea)
-        
-        lstm_input = yy#torch.cat([average_fea,yy],1)1
+
+        lstm_input = yy
         y,_  =  self.lstm(lstm_input)
         h = self.affine0(x, y)
         h = nn.LeakyReLU(0.2,inplace=True)(h)
         
-        #average_fea = F.adaptive_avg_pool2d(h,(1,1)).squeeze()
-        #average_fea = self.fea_l(average_fea)
-        
-        lstm_input = yy#torch.cat([average_fea,yy],1)2
+
+        lstm_input = yy
         y,_  =  self.lstm(lstm_input)        
         h = self.affine1(h, y)
         h = nn.LeakyReLU(0.2,inplace=True)(h)
@@ -110,19 +104,15 @@ class G_Block(nn.Module):
         
         h = self.c1(h)
         
-        #average_fea = F.adaptive_avg_pool2d(h,(1,1)).squeeze()
-        #average_fea = self.fea_ll(average_fea)
-        
-        lstm_input = yy#torch.cat([average_fea,yy],1)
+ 
+        lstm_input = yy
         y,_  =  self.lstm(lstm_input)
         
         
         h = self.affine2(h, y)
         h = nn.LeakyReLU(0.2,inplace=True)(h)
-        #average_fea = F.adaptive_avg_pool2d(h,(1,1)).squeeze()
-        #average_fea = self.fea_ll(average_fea)
-        
-        lstm_input = yy#torch.cat([average_fea,yy],1)
+
+        lstm_input = yy
         y,_  =  self.lstm(lstm_input)
         
         
@@ -172,9 +162,10 @@ class affine(nn.Module):
         return weight * x + bias
 
 
-class D_GET_LOGITS(nn.Module):
+
+class D_GET_LOGITS_att(nn.Module):
     def __init__(self, ndf):
-        super(D_GET_LOGITS, self).__init__()
+        super(D_GET_LOGITS_att, self).__init__()
         self.df_dim = ndf
 
         self.joint_conv = nn.Sequential(
@@ -182,12 +173,32 @@ class D_GET_LOGITS(nn.Module):
             nn.LeakyReLU(0.2,inplace=True),
             nn.Conv2d(ndf * 2, 1, 4, 1, 0, bias=False),
         )
+        self.block = resD(ndf * 16+256, ndf * 16)#4
 
-    def forward(self, out, y):
-        
-        y = y.view(-1, 256, 1, 1)
-        y = y.repeat(1, 1, 4, 4)
+        self.joint_conv_att = nn.Sequential(
+            nn.Conv2d(ndf * 16+256, ndf * 2, 3, 1, 1, bias=False),
+            nn.LeakyReLU(0.2,inplace=True),
+            nn.Conv2d(ndf * 2, 1, 1, 1, 0, bias=False),
+            nn.Sigmoid(),
+        )        
+        self.softmax= nn.Softmax(2)
+    def forward(self, out, y_):
+
+        y = y_.view(-1, 256, 1, 1)
+        y = y.repeat(1, 1, 8, 8)
         h_c_code = torch.cat((out, y), 1)
+        p = self.joint_conv_att(h_c_code)        
+        p = self.softmax(p.view(-1,1,64))
+        p = p.reshape(-1,1,8,8)
+        self.p = p
+        p = p.repeat(1, 256, 1, 1)
+        y = torch.mul(y,p)  
+        h_c_code = torch.cat((out, y), 1)
+        h_c_code = self.block(h_c_code)
+
+        y = y_.view(-1, 256, 1, 1)
+        y = y.repeat(1, 1, 4, 4)        
+        h_c_code = torch.cat((h_c_code, y), 1)
         out = self.joint_conv(h_c_code)
         return out
 
@@ -208,7 +219,7 @@ class NetD(nn.Module):
         self.block4 = resD(ndf * 16, ndf * 16)#4
         self.block5 = resD(ndf * 16, ndf * 16)#4
 
-        self.COND_DNET = D_GET_LOGITS(ndf)
+        self.COND_DNET = D_GET_LOGITS_att(ndf)
 
     def forward(self,x):
 
@@ -218,7 +229,6 @@ class NetD(nn.Module):
         out = self.block2(out)
         out = self.block3(out)
         out = self.block4(out)
-        out = self.block5(out)
 
         return out
 
@@ -233,7 +243,7 @@ class resD(nn.Module):
         self.conv_r = nn.Sequential(
             nn.Conv2d(fin, fout, 4, 2, 1, bias=False),
             nn.LeakyReLU(0.2, inplace=True),
-            
+
             nn.Conv2d(fout, fout, 3, 1, 1, bias=False),
             nn.LeakyReLU(0.2, inplace=True),
         )
