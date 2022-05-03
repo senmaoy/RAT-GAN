@@ -54,7 +54,10 @@ def sampling(text_encoder, netG, dataloader,device):
     model_dir = cfg.TRAIN.NET_G
     split_dir = 'valid'
     # Build and load the generator
+    # for coco wrap netG with DataParallel because it's trained on two 3090
+    #    netG = nn.DataParallel(netG).cuda()
     netG.load_state_dict(torch.load('../models/%s/netG_500.pth'%(cfg.CONFIG_NAME)))
+    
     netG.eval()
 
     batch_size = cfg.TRAIN.BATCH_SIZE
