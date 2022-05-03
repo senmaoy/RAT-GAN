@@ -17,7 +17,7 @@ Results
 - scikit-image
 - A 2080 TI (set nf=32 in *.yaml) or a 3090 32GB (set nf=64 in *.yaml)
 
-Note that nf=32  produces a IS around 5.0 on CUB. To reproduce the final results please use a GPU more than 32GB.
+Note that nf=32  produces a IS around 5.0 on CUB. To reproduce the final results， please use a GPU more than 32GB.
 ### Installation
 
 Clone this repo.
