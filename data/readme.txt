@@ -1,1 +1,1 @@
-Put CUB and coco datasets here.
+some files to convert Oxford into the CUB format
