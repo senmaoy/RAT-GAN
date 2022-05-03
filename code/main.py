@@ -36,8 +36,6 @@ sys.path.append(dir_path)
 import multiprocessing
 multiprocessing.set_start_method('spawn', True)
 
-os.environ["CUDA_VISIBLE_DEVICES"] = "1"
-
 UPDATE_INTERVAL = 200
 def parse_args():
     parser = argparse.ArgumentParser(description='Train a DAMSM network')
@@ -67,7 +65,7 @@ def sampling(text_encoder, netG, dataloader,device):
     save_dir = '%s/%s' % (s_tmp, split_dir)
     mkdir_p(save_dir)
     cnt = 0
-    for i in range(1):  # (cfg.TEXT.CAPTIONS_PER_IMAGE):
+    for i in range(10):  # (cfg.TEXT.CAPTIONS_PER_IMAGE):
         for step, data in enumerate(dataloader, 0):
             imags, captions, cap_lens, class_ids, keys = prepare_data(data)
             cnt += batch_size
@@ -188,7 +186,7 @@ def train(dataloader,netG,netD,text_encoder,optimizerG,optimizerD,state_epoch,ba
                         '%s/fake_samples_epoch_%03d.png' % ('../imgs', epoch),
                         normalize=True)
 
-        if epoch%1==0:
+        if epoch%10==0:
             torch.save(netG.state_dict(), '../models/%s/netG_%03d.pth' % (cfg.CONFIG_NAME, epoch))
             torch.save(netD.state_dict(), '../models/%s/netD_%03d.pth' % (cfg.CONFIG_NAME, epoch))       
 

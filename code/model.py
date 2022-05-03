@@ -88,14 +88,20 @@ class G_Block(nn.Module):
         return x
 
     def residual(self, x, yy=None):
-
-        lstm_input = yy
+        # the input of LSTM can be noise, average feature, text embedding
+        #average_fea = F.(x)
+        #average_fea = F.adaptive_avg_pool2d(x,(1,1)).squeeze()
+        #average_fea = self.fea_l(average_fea)
+        
+        lstm_input = yy#torch.cat([average_fea,yy],1)1
         y,_  =  self.lstm(lstm_input)
         h = self.affine0(x, y)
         h = nn.LeakyReLU(0.2,inplace=True)(h)
         
-
-        lstm_input = yy
+        #average_fea = F.adaptive_avg_pool2d(h,(1,1)).squeeze()
+        #average_fea = self.fea_l(average_fea)
+        
+        lstm_input = yy#torch.cat([average_fea,yy],1)2
         y,_  =  self.lstm(lstm_input)        
         h = self.affine1(h, y)
         h = nn.LeakyReLU(0.2,inplace=True)(h)
@@ -104,15 +110,19 @@ class G_Block(nn.Module):
         
         h = self.c1(h)
         
- 
-        lstm_input = yy
+        #average_fea = F.adaptive_avg_pool2d(h,(1,1)).squeeze()
+        #average_fea = self.fea_ll(average_fea)
+        
+        lstm_input = yy#torch.cat([average_fea,yy],1)
         y,_  =  self.lstm(lstm_input)
         
         
         h = self.affine2(h, y)
         h = nn.LeakyReLU(0.2,inplace=True)(h)
-
-        lstm_input = yy
+        #average_fea = F.adaptive_avg_pool2d(h,(1,1)).squeeze()
+        #average_fea = self.fea_ll(average_fea)
+        
+        lstm_input = yy#torch.cat([average_fea,yy],1)
         y,_  =  self.lstm(lstm_input)
         
         
