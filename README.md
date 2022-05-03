@@ -28,11 +28,13 @@ cd Recurrent-Affine-Transformation-for-Text-to-image-Synthesis/code/
 1. Download the preprocessed metadata for [birds](https://drive.google.com/open?id=1O_LtUP9sch09QH3s_EBAgLEctBQ5JBSJ) [coco](https://drive.google.com/open?id=1rSnbIGNDGZeHlsUlLdahj0RJ9oo6lgH9) and save them to `data/`
 2. Download the [birds](http://www.vision.caltech.edu/visipedia/CUB-200-2011.html) image data. Extract them to `data/birds/`
 3. Download [coco](http://cocodataset.org/#download) dataset and extract the images to `data/coco/`
+4. Download [flower](https://www.robots.ox.ac.uk/~vgg/data/flowers/102/) dataset and extract the images to `data/flower/`
 
 
 ### Pre-trained text encoder
-1. Download the [pre-trained text encoder](https://drive.google.com/open?id=1GNUKjVeyWYBJ8hEU-yrfYQpDOkxEyP3V) for CUB and save it to `DAMSMencoders/bird/inception/`
-2. Download the [pre-trained text encoder](https://drive.google.com/open?id=1zIrXCE9F6yfbEJIbNP5-YrEe2pZcPSGJ) for coco and save it to `DAMSMencoders/coco/inception/`
+1. Download the [pre-trained text encoder](https://drive.google.com/open?id=1GNUKjVeyWYBJ8hEU-yrfYQpDOkxEyP3V) for CUB and save it to `../bird/`
+2. Download the [pre-trained text encoder](https://drive.google.com/open?id=1zIrXCE9F6yfbEJIbNP5-YrEe2pZcPSGJ) for coco and save it to `../bird/`
+3. Download the [pre-trained text encoder](https://drive.google.com/file/d/1Gb5jRhSN9QGgmACNnZvwJMbDLDuVqffp/view?usp=sharing) for flower and save it to `../bird/`
 
 ---
 ### Training
