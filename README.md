@@ -78,6 +78,8 @@ If you find RAT-GAN useful in your research, please consider citing our paper:
 ```
 The code is released for academic research use only. 
 
+I'm now focusing on generative models including RBM,GAN,GLOW and Difusion models. Cooperation and contribution are wellcome, just contact me through senmaoy@gmail.com
+
 
 **Reference**
 - [DF-GAN:  DF-GAN: A Simple and Effective Baseline for Text-to-Image Synthesis](https://arxiv.org/abs/2008.05865) [[code]](https://github.com/tobran/DF-GAN.git)
