@@ -78,7 +78,7 @@ If you find RAT-GAN useful in your research, please consider citing our paper:
 ```
 The code is released for academic research use only. 
 
-I'm now focusing on generative models including RBM,GAN,GLOW and Difusion models. Cooperation and contribution are wellcome, just contact me through senmaoy@gmail.com
+I'm now focusing on generative models including RBM,GAN,GLOW and Diffusion models. Cooperation and contribution are wellcome, just contact me through senmaoy@gmail.com
 
 
 **Reference**
