@@ -6,8 +6,6 @@ Official Pytorch implementation for our paper [Recurrent-Affine-Transformation-f
 #Results
 ![图片](https://user-images.githubusercontent.com/10735956/167243219-3d9a39f6-b38f-4012-9988-ab9058249112.png)
 #Comparison
-![image](https://user-images.githubusercontent.com/10735956/166233024-e2f35b19-fcf8-443b-a69b-ff0341e697d4.png)
-
 ![image](https://user-images.githubusercontent.com/10735956/166233050-3431edeb-9704-48d0-9b48-c3a1c6f5b390.png)
 
 
