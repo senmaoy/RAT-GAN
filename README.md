@@ -3,7 +3,7 @@
 Official Pytorch implementation for our paper [Recurrent-Affine-Transformation-for-Text-to-image-Synthesis](https://arxiv.org/abs/2204.10482) 
 
 ![image](https://user-images.githubusercontent.com/10735956/166232980-d68a28e3-2f36-490d-acc5-dbbdad46c87e.png)
-### Results
+### Examples
 ![图片](https://user-images.githubusercontent.com/10735956/167243219-3d9a39f6-b38f-4012-9988-ab9058249112.png)
 
 ---
