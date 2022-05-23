@@ -31,7 +31,12 @@ cd Recurrent-Affine-Transformation-for-Text-to-image-Synthesis/code/
 4. Download [flower](https://drive.google.com/file/d/1cL0F5Q3AYLfwWY7OrUaV1YmTx4zJXgNG/view?usp=sharing) dataset and extract the images to `data/flower/`
 
 Note that flower dataset is a bit different from cub and coco with a standalone dataset processing script.
-
+### It's easy to train on your own Datasets (similar to the processing for flower dataset)
+1. prepare a captions.pickle containing all the image paths. 
+2. Save captions.pickle under data_dir.
+3. Put all the captions of an image in a standalone txt file (one caption per line). This txt file will be later read by dataset_flower.py in line 149:
+            cap_path = '%s/%s.txt' % ('/home/yesenmao/dataset/flower/jpg_text/', filenames['img'][i])
+4. Run main.py as usual. Dataset_flower.py will automatically process the raw at the first time.
 ### Pre-trained text encoder
 1. Download the [pre-trained text encoder](https://drive.google.com/open?id=1GNUKjVeyWYBJ8hEU-yrfYQpDOkxEyP3V) for CUB and save it to `../bird/`
 2. Download the [pre-trained text encoder](https://drive.google.com/open?id=1zIrXCE9F6yfbEJIbNP5-YrEe2pZcPSGJ) for coco and save it to `../bird/`
