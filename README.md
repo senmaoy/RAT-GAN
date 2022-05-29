@@ -28,16 +28,15 @@ cd Recurrent-Affine-Transformation-for-Text-to-image-Synthesis/code/
 1. Download the preprocessed metadata for [birds](https://drive.google.com/open?id=1O_LtUP9sch09QH3s_EBAgLEctBQ5JBSJ) [coco](https://drive.google.com/open?id=1rSnbIGNDGZeHlsUlLdahj0RJ9oo6lgH9) and save them to `data/`
 2. Download the [birds](http://www.vision.caltech.edu/visipedia/CUB-200-2011.html) image data. Extract them to `data/birds/`
 3. Download [coco](http://cocodataset.org/#download) dataset and extract the images to `data/coco/`
-4. Download [flower](https://drive.google.com/file/d/1cL0F5Q3AYLfwWY7OrUaV1YmTx4zJXgNG/view?usp=sharing) dataset and extract the images to `data/flower/`
+4. Download [flower](https://drive.google.com/file/d/1cL0F5Q3AYLfwWY7OrUaV1YmTx4zJXgNG/view?usp=sharing) dataset and extract the images to `data/flower/`.	Raw text data of flower dataset is avaiable [here](https://drive.google.com/file/d/1cL0F5Q3AYLfwWY7OrUaV1YmTx4zJXgNG/view?usp=sharing)
+
 
 Note that flower dataset is a bit different from cub and coco with a standalone dataset processing script.
 ### It's easy to train on your own Datasets (similar to the processing for flower dataset)
 1. Prepare a captions.pickle containing all the image paths. Note that captions.pickle should be prepared by yourself.
 2. Save captions.pickle under data_dir.
 3. Put all the captions of an image in a standalone txt file (one caption per line). This txt file will be later read by dataset_flower.py in line 149:
-            cap_path = '%s/%s.txt' % ('/home/yesenmao/dataset/flower/jpg_text/', filenames['img'][i])
-			
-	Text data of flower dataset is avaiable [here](https://drive.google.com/file/d/1cL0F5Q3AYLfwWY7OrUaV1YmTx4zJXgNG/view?usp=sharing)
+            cap_path = '%s/%s.txt' % ('/home/yesenmao/dataset/flower/jpg_text/', filenames['img'][i])			
 4. Run main.py as usual. Dataset_flower.py will automatically process your own dataset.
 ### Pre-trained text encoder
 1. Download the [pre-trained text encoder](https://drive.google.com/open?id=1GNUKjVeyWYBJ8hEU-yrfYQpDOkxEyP3V) for CUB and save it to `../bird/`
