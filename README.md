@@ -80,7 +80,7 @@ If you find RAT-GAN useful in your research, please consider citing our paper:
   year={2022}
 }
 ```
-If you are interseted, join us on Wechat
+If you are interseted, join us on Wechat group!
 
 ![image](https://user-images.githubusercontent.com/10735956/172842203-6eccaea0-b1cb-4d0d-b82b-0ee97531a15c.png)
 
