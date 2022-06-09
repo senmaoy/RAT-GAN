@@ -80,9 +80,10 @@ If you find RAT-GAN useful in your research, please consider citing our paper:
   year={2022}
 }
 ```
-The code is released for academic research use only. 
+The code is released for academic research use only. Please contact me through senmaoy@gmail.com
 
-I'm currently focusing on GAN and GLOW models. If you are interseted, just contact me through senmaoy@gmail.com or Wechat: Unsupervised2020
+If you are interseted, join us on Wechat
+![d8c5aab7957edd85690332d99f4d779](https://user-images.githubusercontent.com/10735956/172841780-f5c0fa83-3506-4df1-aae7-23d9442e52fb.jpg)
 
 
 **Reference**
