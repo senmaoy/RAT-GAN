@@ -83,8 +83,7 @@ If you find RAT-GAN useful in your research, please consider citing our paper:
 The code is released for academic research use only. Please contact me through senmaoy@gmail.com
 
 If you are interseted, join us on Wechat
-![d8c5aab7957edd85690332d99f4d779](https://user-images.githubusercontent.com/10735956/172841780-f5c0fa83-3506-4df1-aae7-23d9442e52fb.jpg)
-
+![image](https://user-images.githubusercontent.com/10735956/172842203-6eccaea0-b1cb-4d0d-b82b-0ee97531a15c.png)
 
 **Reference**
 - [DF-GAN:  DF-GAN: A Simple and Effective Baseline for Text-to-Image Synthesis](https://arxiv.org/abs/2008.05865) [[code]](https://github.com/tobran/DF-GAN.git)
