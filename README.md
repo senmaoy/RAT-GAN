@@ -81,6 +81,7 @@ If you find RAT-GAN useful in your research, please consider citing our paper:
 }
 ```
 If you are interseted, join us on Wechat group where a dozen of t2i partners are waiting for you!
+
 ![image](https://user-images.githubusercontent.com/10735956/175842152-0e307f43-a8d6-4961-b944-6ec616efc6e7.png)
 
 
