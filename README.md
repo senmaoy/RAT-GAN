@@ -57,7 +57,7 @@ Note that flower dataset is a bit different from cub and coco with a standalone 
 
 **Dwonload Pretrained Model**
 - [RAT-GAN for bird](https://drive.google.com/file/d/1Np4odfdNkgRursGeKmwVix3zLhiZfZUa/view?usp=sharing). Download and save it to `models/bird/`
-- [RAT-GAN for coco](https://drive.google.com/file/d/1wQOpopmaCFz9XjSnvjb5ZOVq2F-elFhy/view?usp=sharing). Download and save it to `models/coco/`
+- [RAT-GAN for coco](https://drive.google.com/file/d/16rd-7wjEXOhHwj_-rsNaWPCT49zG3Bwv/view?usp=sharing). Download and save it to `models/coco/`
 - [RAT-GAN for flower](https://drive.google.com/file/d/19THxubZDsa6_KfOTBpZ45S2aeVXCBj0T/view?usp=sharing). Download and save it to `models/flower/`
 
 **Evaluate RAT-GAN models:**
