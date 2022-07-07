@@ -82,7 +82,7 @@ If you find RAT-GAN useful in your research, please consider citing our paper:
 ```
 If you are interseted, join us on Wechat group where a dozen of t2i partners are waiting for you!
 
-![image](https://user-images.githubusercontent.com/10735956/175842152-0e307f43-a8d6-4961-b944-6ec616efc6e7.png)
+![1657197204687](https://user-images.githubusercontent.com/10735956/177774270-301ea2b3-57b9-483a-84f6-ab1596fb3eb8.png)
 
 
 The code is released for academic research use only. Please contact me through senmaoy@gmail.com
