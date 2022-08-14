@@ -21,7 +21,7 @@ Note that nf=32  produces a IS around 5.0 on CUB. To reproduce the final results
 Clone this repo.
 ```
 git clone https://github.com/senmaoy/RAT-GAN.git
-cd Recurrent-Affine-Transformation-for-Text-to-image-Synthesis/code/
+cd RAT-GAN/code/
 ```
 
 ### Datasets Preparation
