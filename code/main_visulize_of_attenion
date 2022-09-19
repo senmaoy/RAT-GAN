@@ -6,7 +6,7 @@ from miscc.config import cfg, cfg_from_file
 from datasets import TextDataset
 from datasets import prepare_data
 
-from DAMSM import RNN_ENCODER,CustomLSTM,CustomLSTM_att
+from DAMSM import RNN_ENCODER,CustomLST
 
 import os
 import sys
