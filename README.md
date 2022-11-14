@@ -84,7 +84,7 @@ If you are interseted, join us on Wechat group where a dozen of t2i partners are
 
 ![1662194596425](https://user-images.githubusercontent.com/10735956/188263203-239be24d-563d-4a08-986f-0ce20e6f2d3b.png)
 
-
+If the QR code is expired, you can add this wechat: Unsupervised2020
 The code is released for academic research use only. Please contact me through senmaoy@gmail.com
 
 **Reference**
