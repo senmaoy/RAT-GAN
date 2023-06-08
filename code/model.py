@@ -162,7 +162,24 @@ class affine(nn.Module):
         return weight * x + bias
 
 
+class D_GET_LOGITS(nn.Module):
+    def __init__(self, ndf):
+        super(D_GET_LOGITS, self).__init__()
+        self.df_dim = ndf
 
+        self.joint_conv = nn.Sequential(
+            nn.Conv2d(ndf * 16+256, ndf * 2, 3, 1, 1, bias=False),
+            nn.LeakyReLU(0.2,inplace=True),
+            nn.Conv2d(ndf * 2, 1, 4, 1, 0, bias=False),
+        )
+
+    def forward(self, out, y):
+        
+        y = y.view(-1, 256, 1, 1)
+        y = y.repeat(1, 1, 4, 4)
+        h_c_code = torch.cat((out, y), 1)
+        out = self.joint_conv(h_c_code)
+        return out
 class D_GET_LOGITS_att(nn.Module):
     def __init__(self, ndf):
         super(D_GET_LOGITS_att, self).__init__()
@@ -219,7 +236,7 @@ class NetD(nn.Module):
         self.block4 = resD(ndf * 16, ndf * 16)#4
         self.block5 = resD(ndf * 16, ndf * 16)#4
 
-        self.COND_DNET = D_GET_LOGITS_att(ndf)
+        self.COND_DNET = D_GET_LOGITS(ndf)
 
     def forward(self,x):
 
