@@ -18,7 +18,7 @@ TREE:
 TRAIN:
     NF: 64 # default 64
     BATCH_SIZE: 24
-    MAX_EPOCH: 6010
+    MAX_EPOCH: 601
     NET_G: '../test'
 
 
