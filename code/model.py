@@ -246,6 +246,7 @@ class NetD(nn.Module):
         out = self.block2(out)
         out = self.block3(out)
         out = self.block4(out)
+        out = self.block5(out)
 
         return out
 
