@@ -6,7 +6,7 @@ from miscc.config import cfg, cfg_from_file
 from datasets import TextDataset
 from datasets import prepare_data
 
-from DAMSM import RNN_ENCODER,CustomLSTM#_vis
+from DAMSM import RNN_ENCODER,CustomLSTM
 
 import os
 import sys
@@ -27,8 +27,6 @@ import torch.backends.cudnn as cudnn
 import torchvision.transforms as transforms
 from model import NetG,NetD
 import torchvision.utils as vutils
-from scipy.stats import truncnorm
-
 
 dir_path = (os.path.abspath(os.path.join(os.path.realpath(__file__), './.')))
 sys.path.append(dir_path)
@@ -36,14 +34,14 @@ sys.path.append(dir_path)
 import multiprocessing
 multiprocessing.set_start_method('spawn', True)
 
-os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+os.environ["CUDA_VISIBLE_DEVICES"] = "0,1"
 
 UPDATE_INTERVAL = 200
 def parse_args():
     parser = argparse.ArgumentParser(description='Train a DAMSM network')
     parser.add_argument('--cfg', dest='cfg_file',
                         help='optional config file',
-                        default='cfg/coco.yml', type=str)
+                        default='cfg/coco_e.yml', type=str)
     parser.add_argument('--gpu', dest='gpu_id', type=int, default=0)
     parser.add_argument('--data_dir', dest='data_dir', type=str, default='')
     parser.add_argument('--manualSeed', type=int, help='manual seed')
@@ -56,7 +54,7 @@ def sampling(text_encoder, netG, dataloader,device):
     model_dir = cfg.TRAIN.NET_G
     split_dir = 'valid'
     # Build and load the generator
-    netG.load_state_dict(torch.load('../models/%s/netG_273.pth'%(cfg.CONFIG_NAME)))
+    netG.load_state_dict(torch.load('../models/%s/netG_274.pth'%(cfg.CONFIG_NAME)))
     netG.eval()
 
     batch_size = cfg.TRAIN.BATCH_SIZE
@@ -64,9 +62,7 @@ def sampling(text_encoder, netG, dataloader,device):
     save_dir = '%s/%s' % (s_tmp, split_dir)
     mkdir_p(save_dir)
     cnt = 0
-    g= []
-    
-    for i in range(1):  # (cfg.TEXT.CAPTIONS_PER_IMAGE):
+    for i in range(6):  # (cfg.TEXT.CAPTIONS_PER_IMAGE):
         for step, data in enumerate(dataloader, 0):
             imags, captions, cap_lens, class_ids, keys = prepare_data(data)
             cnt += batch_size
@@ -83,29 +79,13 @@ def sampling(text_encoder, netG, dataloader,device):
             # (2) Generate fake images
             ######################################################
             with torch.no_grad():
-                for ii in range(10):
-                    noise = torch.randn(batch_size, 100)
-                    noise=noise.to(device)#.fill_(0)
-                    seed = None
-                    state = None if seed is None else np.random.RandomState(seed)
-                    #values = truncnorm.rvs(-2, 2, size=(batch_size, 100), random_state=state).astype(np.float32)
-                    #noise = torch.tensor(values, dtype=torch.float).to(device)
-                    #netG.lstm.init_hidden(noise*2.5)
-                    netG.module.lstm.init_hidden(noise)
-                    
-                    fake_imgs = netG(noise,sent_emb)
-                    #gats_1 = torch.stack(netG.lstm.in_gats,1)
-                    #gats_2 = torch.stack(netG.lstm.out_gats,1)
-                    #gats_3 = torch.stack(netG.lstm.forget_gats,1) 
-                    #print(keys[1])
-                    ##temp = gats_1.transpose(1,2)[1][1]
-                    ##temp = gats_1[2].sum(1)
-                    #temp = gats_1[20].sum(1)
-                    #g.append(temp)
-                    #if len(g)==9:
-                        #print(234324)
+                noise = torch.randn(batch_size, 100)
+                noise=noise.to(device)
+                #netG.lstm.init_hidden(noise)
+                
+                fake_imgs = netG(noise,sent_emb)
             for j in range(batch_size):
-                s_tmp = '%s/coco/%s' % (save_dir, keys[j])
+                s_tmp = '%s/single/%s' % (save_dir, keys[j])
                 folder = s_tmp[:s_tmp.rfind('/')]
                 if not os.path.isdir(folder):
                     print('Make a new folder: ', folder)
@@ -122,9 +102,7 @@ def sampling(text_encoder, netG, dataloader,device):
 
 
 def train(dataloader,netG,netD,text_encoder,optimizerG,optimizerD,state_epoch,batch_size,device):
-    mkdir_p('../models/%s' % (cfg.CONFIG_NAME))
-    #netG.load_state_dict(torch.load('/home/ysm/task/GAN/DF-GAN-rnn/models/%s/netG_1400.pth'%(cfg.CONFIG_NAME)))
-    #netD.load_state_dict(torch.load('/home/ysm/task/GAN/DF-GAN-rnn/models/%s/netD_1400.pth'%(cfg.CONFIG_NAME)))    
+    mkdir_p('../models/%s' % (cfg.CONFIG_NAME))  
     for epoch in range(state_epoch+1, cfg.TRAIN.MAX_EPOCH+1):
         torch.cuda.empty_cache()
         
@@ -140,24 +118,24 @@ def train(dataloader,netG,netD,text_encoder,optimizerG,optimizerD,state_epoch,ba
 
             imgs=imags[0].to(device)
             real_features = netD(imgs)
-            output = netD.COND_DNET(real_features,sent_emb)
+            output = netD.module.COND_DNET(real_features,sent_emb)
             errD_real = torch.nn.ReLU()(1.0 - output).mean()
 
-            output = netD.COND_DNET(real_features[:(batch_size - 1)], sent_emb[1:batch_size])
+            output = netD.module.COND_DNET(real_features[:(batch_size - 1)], sent_emb[1:batch_size])
             errD_mismatch = torch.nn.ReLU()(1.0 + output).mean()
 
             # synthesize fake images
             
             noise = torch.randn(batch_size, 100)
             noise=noise.to(device)
-            netG.lstm.init_hidden(noise)
+            #netG.lstm.init_hidden(noise)
             
             fake = netG(noise,sent_emb)  
             
             # G does not need update with D
             fake_features = netD(fake.detach()) 
 
-            errD_fake = netD.COND_DNET(fake_features,sent_emb)
+            errD_fake = netD.module.COND_DNET(fake_features,sent_emb)
             errD_fake = torch.nn.ReLU()(1.0 + errD_fake).mean()          
 
             errD = errD_real + (errD_fake + errD_mismatch)/2.0
@@ -170,7 +148,7 @@ def train(dataloader,netG,netD,text_encoder,optimizerG,optimizerD,state_epoch,ba
             interpolated = (imgs.data).requires_grad_()
             sent_inter = (sent_emb.data).requires_grad_()
             features = netD(interpolated)
-            out = netD.COND_DNET(features,sent_inter)
+            out = netD.module.COND_DNET(features,sent_inter)
             grads = torch.autograd.grad(outputs=out,
                                     inputs=(interpolated,sent_inter),
                                     grad_outputs=torch.ones(out.size()).cuda(),
@@ -190,7 +168,7 @@ def train(dataloader,netG,netD,text_encoder,optimizerG,optimizerD,state_epoch,ba
             
             # update G
             features = netD(fake)
-            output = netD.COND_DNET(features,sent_emb)
+            output = netD.module.COND_DNET(features,sent_emb)
             errG = - output.mean()
             optimizerG.zero_grad()
             optimizerD.zero_grad()
@@ -293,7 +271,7 @@ if __name__ == "__main__":
         p.requires_grad = False
     text_encoder.eval()    
 
-    state_epoch=0
+    state_epoch=260
 
     optimizerG = torch.optim.Adam(netG.parameters(), lr=0.0001, betas=(0.0, 0.9))
     optimizerD = torch.optim.Adam(netD.parameters(), lr=0.0004, betas=(0.0, 0.9))  
